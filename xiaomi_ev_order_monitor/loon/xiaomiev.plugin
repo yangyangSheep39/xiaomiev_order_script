@@ -1,5 +1,5 @@
 #!name=小米汽车订单监控
-#!desc=小米汽车订单监控，首次运行请先在小米汽车App中登录账号，主页面下拉获取订单信息，获取成功后可选择关闭脚本“订单监控”。
+#!desc=小米汽车订单监控，首次运行请先在小米汽车App中登录账号，主页面下拉获取订单信息，获取成功后可选择勾选“关闭获取订单消息脚本”。
 #!author=lonelyman0108,yangyangSheep
 #!icon=https://raw.githubusercontent.com/yangyangSheep39/xiaomiev_order_script/refs/heads/master/icon/Xiaomi_EV.jpg
 #!date=2025-08-07
@@ -14,5 +14,5 @@ arg2 = switch,true,tag=状态未变更静默通知
 hostname=api.retail.xiaomiev.com
 
 [Script]
-http-request ^https:\/\/api\.retail\.xiaomiev\.com\/mtop\/carlife\/product\/order script-path=https://raw.githubusercontent.com/lonelyman0108/script/refs/heads/master/xiaomi_ev_order_monitor/surge/xiaomi_ev_order_get.js, requires-body=true, timeout=20, enabled=false, tag=获取订单, enable={arg1}
-cron "0 */30 * * * *" script-path=https://raw.githubusercontent.com/lonelyman0108/script/refs/heads/master/xiaomi_ev_order_monitor/loon/xiaomi_ev_order_check.js, timeout=300, tag=小米订单监控, enable=true, argument=[{arg2}]
+http-request ^https:\/\/api\.retail\.xiaomiev\.com\/mtop\/carlife\/product\/order script-path=https://raw.githubusercontent.com/yangyangSheep39/xiaomiev_order_script/refs/heads/master/xiaomi_ev_order_monitor/surge/xiaomi_ev_order_get.js, requires-body=true, timeout=20, enabled=false, tag=获取订单, enable={arg1}
+cron "0 */30 * * * *" script-path=https://raw.githubusercontent.com/yangyangSheep39/xiaomiev_order_script/refs/heads/master/xiaomi_ev_order_monitor/loon/xiaomi_ev_order_check.js, timeout=300, tag=小米订单监控, enable=true, argument=[{arg2}]
