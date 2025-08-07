@@ -83,9 +83,17 @@ const lastStatusKey = "xiaomi_ev_last_status";
         if (!lastStatus) {
           // 如果没有基准状态（例如首次运行），则只保存不通知
           console.log(
-            `🤔 [小米汽车] 尚无基准状态，已将当前状态 ${currentStatus} 保存，本次不通知。`
+            `🤔 [小米汽车] 尚无基准状态，已将当前状态 ${currentStatus} 保存,并通知。`
           );
           $persistentStore.write(currentStatus, lastStatusKey);
+
+          const customStatus = parseOrderStatus(currentStatus);
+          const title = "✅ 小米汽车订单状态获取！";
+          const subtitle = `实际状态: ${customStatus}`;
+          const content = `APP状态: ${currentStatusName}\n获取时间: ${new Date().toLocaleTimeString(
+            "zh-CN"
+          )}`;
+          $notification.post(title, subtitle, content);
         } else if (currentStatus !== lastStatus) {
           console.log(
             `🔔 [小米汽车] 状态已变更! 旧: ${lastStatus}, 新: ${currentStatus}`
@@ -94,8 +102,8 @@ const lastStatusKey = "xiaomi_ev_last_status";
 
           const customStatus = parseOrderStatus(currentStatus);
           const title = "🔔 小米汽车订单状态变更！";
-          const subtitle = `APP新状态: ${currentStatusName}`;
-          const content = `实际新状态: ${customStatus}\n变更时间: ${new Date().toLocaleTimeString(
+          const subtitle = `实际新状态: ${customStatus}`;
+          const content = `APP新状态: ${currentStatusName}\n变更时间: ${new Date().toLocaleTimeString(
             "zh-CN"
           )}`;
           $notification.post(title, subtitle, content);
