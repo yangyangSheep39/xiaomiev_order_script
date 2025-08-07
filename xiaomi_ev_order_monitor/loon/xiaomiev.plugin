@@ -1,8 +1,9 @@
 #!name=小米汽车订单监控
-#!desc=小米汽车订单监控，首次运行请先在小米汽车App中登录账号，主页面下拉获取订单信息，获取成功后可选择关闭脚本“订单监控”
+#!desc=小米汽车订单监控，首次运行请先在小米汽车App中登录账号，主页面下拉获取订单信息，获取成功后可选择关闭脚本“订单监控”。
 #!author=lonelyman0108,yangyangSheep
 #!icon=https://raw.githubusercontent.com/yangyangSheep39/xiaomiev_order_script/refs/heads/master/icon/Xiaomi_EV.jpg
 #!date=2025-08-07
+
 
 [Argument]
 arg1 = switch,true,tag=关闭获取订单消息脚本
