@@ -43,9 +43,9 @@ const lastStatusKey = "xiaomi_ev_last_status";
 
     try {
       const result = JSON.parse(data);
-      const statusInfo = result.data.orderDetailDto.statusInfo;
+      const orderDetailDto = result.data.orderDetailDto;
 
-      if (!statusInfo || !statusInfo.orderStatus) {
+      if (!orderDetailDto || !orderDetailDto.statusInfo || !orderDetailDto.statusInfo.orderStatus) {
         console.log("📄 [小米汽车] 解析数据失败：JSON结构可能已变更。");
         $notification.post(
           "❌ 小米汽车订单监控",
@@ -55,11 +55,18 @@ const lastStatusKey = "xiaomi_ev_last_status";
         $done();
         return;
       }
+      
+      const statusInfo = orderDetailDto.statusInfo;
+      const orderTimeInfo = orderDetailDto.orderTimeInfo;
 
       const currentStatus = String(statusInfo.orderStatus);
       const currentStatusName = statusInfo.orderStatusName || "N/A";
       const lastStatus = $persistentStore.read(lastStatusKey);
       const currentHour = new Date().getHours();
+      let remainingTime = "";
+      if (orderTimeInfo && orderTimeInfo.deliveryTime && orderTimeInfo.deliveryTime.includes('预计还需')) {
+          remainingTime = orderTimeInfo.deliveryTime.split('预计还需')[1].trim();
+      }
 
       // 检查当前小时是否为9点，决定执行哪种逻辑
       if (currentHour === 9) {
@@ -73,7 +80,7 @@ const lastStatusKey = "xiaomi_ev_last_status";
         const customStatus = parseOrderStatus(currentStatus);
         const title = "☀️ 小米汽车每日订单报告";
         const subtitle = `实际状态: ${customStatus}`;
-        const content = `APP状态: ${currentStatusName}\n报告时间: ${new Date().toLocaleTimeString(
+        const content = `剩余时间: ${remainingTime}\nAPP状态: ${currentStatusName}\n报告时间: ${new Date().toLocaleTimeString(
           "zh-CN"
         )}`;
         $notification.post(title, subtitle, content);
@@ -90,7 +97,7 @@ const lastStatusKey = "xiaomi_ev_last_status";
           const customStatus = parseOrderStatus(currentStatus);
           const title = "✅ 小米汽车订单状态获取！";
           const subtitle = `实际状态: ${customStatus}`;
-          const content = `APP状态: ${currentStatusName}\n获取时间: ${new Date().toLocaleTimeString(
+          const content = `剩余时间: ${remainingTime}\nAPP状态: ${currentStatusName}\n获取时间: ${new Date().toLocaleTimeString(
             "zh-CN"
           )}`;
           $notification.post(title, subtitle, content);
@@ -103,7 +110,7 @@ const lastStatusKey = "xiaomi_ev_last_status";
           const customStatus = parseOrderStatus(currentStatus);
           const title = "🔔 小米汽车订单状态变更！";
           const subtitle = `实际新状态: ${customStatus}`;
-          const content = `APP新状态: ${currentStatusName}\n变更时间: ${new Date().toLocaleTimeString(
+          const content = `剩余时间: ${remainingTime}\nAPP新状态: ${currentStatusName}\n变更时间: ${new Date().toLocaleTimeString(
             "zh-CN"
           )}`;
           $notification.post(title, subtitle, content);
