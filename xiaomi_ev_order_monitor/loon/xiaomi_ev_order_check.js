@@ -95,10 +95,12 @@ const lastStatusKey = "xiaomi_ev_last_status";
                     if ($argument.arg2) {
                         console.log("😴 [小米汽车] 状态无变化，且已配置静默处理，无须发送通知。");
                     } else {
+                        const customStatus = parseOrderStatus(currentStatus);
+                        const title = "😭 [小米汽车] 状态无变化，好难等啊！！！！";
+                        const subtitle = `实际新状态: ${customStatus}`;
                         const content = `剩余时间: ${remainingTime}\nAPP当前状态: ${currentStatusName}\n当前时间: ${new Date().toLocaleTimeString("zh-CN")}`;
-                        $notification.post("😴 [小米汽车] 状态无变化，静默处理。", subtitle, content);
+                        $notification.post(title, subtitle, content);
                     }
-
                 }
             }
         } catch (e) {
