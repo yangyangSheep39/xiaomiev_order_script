@@ -58,7 +58,7 @@
 
 </details>
 
-![Loon一键安装插件](https://www.nsloon.com/openloon/import?plugin=https://raw.githubusercontent.com/lonelyman0108/script/refs/heads/master/xiaomi_ev_order_monitor/loon/xiaomiev.plugin)
+[Loon一键安装插件](https://www.nsloon.com/openloon/import?plugin=https://raw.githubusercontent.com/lonelyman0108/script/refs/heads/master/xiaomi_ev_order_monitor/loon/xiaomiev.plugin)
 
 ## 🚀 使用流程
 
